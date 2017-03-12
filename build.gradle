@@ -37,3 +37,12 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    PUBLISH_VERSION = '0.1.0'
+    BUILD_TOOLS_VERSION = '25.0.2'
+    SUPPORT_LIBRARY_VERSION = '25.2.0'
+    ESPRESSO_VERSION = '2.2.2'
+    
+    
+}
