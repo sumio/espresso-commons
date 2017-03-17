@@ -82,6 +82,7 @@ install {
                 packaging 'aar'
                 name project.name
                 url rootProject.ext.SITE_URL
+                description rootProject.ext.DESCRIPTION
                 licenses {
                     license {
                         name rootProject.ext.LICENSE
