@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
+group = rootProject.ext.GROUP_ID
+version = rootProject.ext.PUBLISH_VERSION
+
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
 
 android {
     compileSdkVersion 25
@@ -42,13 +47,6 @@ android {
     }
 }
 
-afterEvaluate {
-    tasks.withType(Javadoc) {
-        options.encoding = 'UTF-8'
-        options.locale = 'en'
-    }
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile("com.android.support.test.espresso:espresso-core:${rootProject.ext.ESPRESSO_VERSION}") {
@@ -61,10 +59,87 @@ dependencies {
 }
 
 
-publish {
-    groupId = 'jp.jun_nama'
-    artifactId = 'espresso-commons'
-    publishVersion = rootProject.ext.PUBLISH_VERSION
-    desc = 'A library of utilities commonly used with Espresso'
-    website = 'https://github.com/sumio/espresso-commons'
+bintray {
+    user = bintrayUser
+    key = bintrayKey
+
+    configurations = ['archives'] //When uploading configuration files
+    pkg {
+        repo = 'maven'
+        name = project.name
+        desc = rootProject.ext.DESCRIPTION
+        websiteUrl = rootProject.ext.SITE_URL
+        issueTrackerUrl = "${rootProject.ext.SITE_URL}/issues"
+        vcsUrl = rootProject.ext.GIT_URL
+        licenses = ['Apache-2.0']
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name project.name
+                url rootProject.ext.SITE_URL
+                description rootProject.ext.DESCRIPTION
+                licenses {
+                    license {
+                        name rootProject.ext.LICENSE
+                        url rootProject.ext.LICENSE_URL
+                    }
+                }
+                developers {
+                    developer {
+                        id rootProject.ext.DEVELOPER_ID
+                        name rootProject.ext.DEVELOPER_NAME
+                        email rootProject.ext.DEVELOPER_EMAIL
+                    }
+                }
+                scm {
+                    url rootProject.ext.GIT_URL
+                    connection rootProject.ext.GIT_URL
+                    developerConnection rootProject.ext.GIT_URL
+                }
+            }
+        }
+    }
+}
+
+android.libraryVariants.all { variant ->
+    if (variant.name != "release") {
+        return
+    }
+    def javadocTaskName = "javadoc${variant.name.capitalize()}";
+    task(javadocTaskName, type: Javadoc) {
+        description "Generates Javadoc for ${variant.name}."
+        variant.sourceSets.each {
+            delegate.source it.java.srcDirs
+        }
+        destinationDir = reporting.file("${variant.name}-docs")
+        classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
+        classpath += variant.javaCompile.classpath
+        classpath += variant.javaCompile.outputs.files
+        options.encoding = 'UTF-8'
+        options.locale = 'en'
+    }
+    task("javadocsJar${variant.name.capitalize()}", type: Jar, dependsOn: tasks[javadocTaskName]) {
+        classifier = "javadoc"
+        from tasks[javadocTaskName].destinationDir
+    }
+    task("sourcesJar${variant.name.capitalize()}", type: Jar) {
+        classifier = "sources"
+        variant.sourceSets.each {
+            from it.java.srcDirs
+        }
+    }
+
+    artifacts {
+        archives tasks["javadocsJar${variant.name.capitalize()}"]
+        archives tasks["sourcesJar${variant.name.capitalize()}"]
+    }
+}
+
+task findConventions << {
+    println project.getConvention()
 }

@@ -22,7 +22,9 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'com.novoda:bintray-release:0.4.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -39,10 +41,22 @@ task clean(type: Delete) {
 }
 
 ext {
-    PUBLISH_VERSION = '0.1.0'
+    PUBLISH_VERSION = '0.1.1'
     BUILD_TOOLS_VERSION = '25.0.2'
     SUPPORT_LIBRARY_VERSION = '25.2.0'
     ESPRESSO_VERSION = '2.2.2'
-    
-    
+
+    GROUP_ID = 'jp.jun_nama'
+    ARTIFACT_ID = 'espresso-commons'
+    DESCRIPTION = 'A library of utilities commonly used with Espresso'
+
+    SITE_URL = 'https://github.com/sumio/espresso-commons'
+    GIT_URL = 'https://github.com/sumio/espresso-commons.git'
+
+    LICENSE = 'The Apache License, Version 2.0'
+    LICENSE_URL = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+
+    DEVELOPER_ID = 'sumio'
+    DEVELOPER_NAME = 'TOYAMA Sumio'
+    DEVELOPER_EMAIL = 'jun.nama@gmail.com'
 }

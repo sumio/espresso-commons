@@ -45,6 +45,9 @@ public class RecyclerViewUtils {
 
     /**
      * Returns an action that clicks a descendant of the view matched with the given resource id.
+     *
+     * @param id resource id of the view to click.
+     * @return an action that clicks a descendant of the view matched with the given resource id.
      */
     public static ViewAction clickDescendantViewWithId(@IdRes final int id) {
         return new ViewAction() {
@@ -82,11 +85,12 @@ public class RecyclerViewUtils {
      * in order to ensure that the item view is laid out.
      * </p>
      * <pre><code>
-     *     onView(withId(R.id.recyclerView).perform(RecyclerViewActions.scrollToPosition(position);
+     *     onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.scrollToPosition(position));
      * </code></pre>
      *
      * @param recyclerViewMatcher a matcher for RecyclerView containing the item view.
-     * @param position            position of the item view in RecyclerView
+     * @param position            position of the item view in RecyclerView.
+     * @return a matcher that matches an item view at the given position.
      */
     public static Matcher<View> withItemViewAtPosition(final Matcher<View> recyclerViewMatcher, final int position) {
         return new TypeSafeMatcher<View>() {

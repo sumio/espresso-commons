@@ -37,6 +37,10 @@ public class MoreViewMatchers {
     /**
      * Returns a matcher that matches a <em>VISIBLE</em> view at the given position
      * in the {@link ViewGroup} matched by the given {@code parentMatcher}.
+     *
+     * @param parentMatcher a matcher that matches the parent view.
+     * @param position an index of a VISIBLE child.
+     * @return a matcher that matches {@code position}-th child of the parent view.
      */
     public static Matcher<View> childAtPosition(final Matcher<View> parentMatcher, final int position) {
 

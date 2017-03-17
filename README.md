@@ -11,7 +11,7 @@ A library of utilities commonly used with [Espresso](https://google.github.io/an
 Add the following lines to your Gradle dependencies:
 
 ```gradle
-androidTestCompile('jp.jun_nama:espresso-commons:0.1.0') {
+androidTestCompile('jp.jun_nama:espresso-commons:0.1.1') {
     exclude group: 'com.android.support'
 }
 ```
