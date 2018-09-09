@@ -13,14 +13,14 @@ A library of utilities commonly used with [Espresso](https://google.github.io/an
 Add the following lines to your Gradle dependencies:
 
 ```gradle
-androidTestCompile('jp.jun_nama:espresso-commons:0.1.1') {
+androidTestImplementation 'jp.jun_nama:espresso-commons:1.0.0', {
     exclude group: 'com.android.support'
 }
 ```
 
 ## License
 
-Copyright 2017 TOYAMA Sumio &lt;jun.nama@gmail.com&gt;  
+Copyright 2017-2018 TOYAMA Sumio &lt;jun.nama@gmail.com&gt;
 Licensed under the
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 TOYAMA Sumio <jun.nama@gmail.com>
+ * Copyright (C) 2017-2018 TOYAMA Sumio <jun.nama@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +23,12 @@ apply plugin: 'com.jfrog.bintray'
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion rootProject.ext.BUILD_TOOLS_VERSION
+    compileSdkVersion 27
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
+        targetSdkVersion 27
+        versionCode 2
         versionName rootProject.ext.PUBLISH_VERSION
     }
     buildTypes {
@@ -48,30 +47,31 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile("com.android.support.test.espresso:espresso-core:${rootProject.ext.ESPRESSO_VERSION}") {
-        exclude group: 'com.android.support'
-    }
-    compile("com.android.support.test.espresso:espresso-contrib:${rootProject.ext.ESPRESSO_VERSION}") {
-        exclude group: 'com.android.support'
-    }
-    compile "com.android.support:recyclerview-v7:${rootProject.ext.SUPPORT_LIBRARY_VERSION}"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support.test.espresso:espresso-core:${rootProject.ext.ESPRESSO_VERSION}"
+    implementation "com.android.support.test.espresso:espresso-contrib:${rootProject.ext.ESPRESSO_VERSION}"
+    implementation "com.android.support:recyclerview-v7:${rootProject.ext.SUPPORT_LIBRARY_VERSION}"
 }
 
 
 bintray {
     user = bintrayUser
     key = bintrayKey
+    dryRun = false
 
     configurations = ['archives'] //When uploading configuration files
     pkg {
         repo = 'maven'
-        name = project.name
+        name = rootProject.ext.ARTIFACT_ID
         desc = rootProject.ext.DESCRIPTION
         websiteUrl = rootProject.ext.SITE_URL
         issueTrackerUrl = "${rootProject.ext.SITE_URL}/issues"
         vcsUrl = rootProject.ext.GIT_URL
         licenses = ['Apache-2.0']
+        version {
+            name = rootProject.ext.PUBLISH_VERSION
+            vcsTag = rootProject.ext.PUBLISH_VERSION
+        }
     }
 }
 
@@ -79,10 +79,15 @@ install {
     repositories.mavenInstaller {
         pom {
             project {
-                packaging 'aar'
-                name project.name
+                name rootProject.ext.ARTIFACT_ID
                 url rootProject.ext.SITE_URL
                 description rootProject.ext.DESCRIPTION
+
+                packaging 'aar'
+                groupId rootProject.ext.GROUP_ID
+                artifactId rootProject.ext.ARTIFACT_ID
+                version rootProject.ext.PUBLISH_VERSION
+
                 licenses {
                     license {
                         name rootProject.ext.LICENSE

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 TOYAMA Sumio <jun.nama@gmail.com>
+ * Copyright (C) 2017-2018 TOYAMA Sumio <jun.nama@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,16 @@
 
 apply plugin: 'com.android.application'
 
+//repositories {
+//    mavenLocal()
+//}
+
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
     defaultConfig {
         applicationId "jp.jun_nama.espresso.commons.sample"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -36,11 +39,21 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile project(':espresso-commons')
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.1'
-    compile 'com.android.support:support-v4:25.2.0'
-    compile 'com.android.support:recyclerview-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation project(':espresso-commons')
+//    androidTestImplementation 'jp.jun_nama:espresso-commons:1.0.0-SNAPSHOT', {
+//        exclude group: 'com.android.support'
+//    }
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootProject.ext.ESPRESSO_VERSION}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${rootProject.ext.ESPRESSO_VERSION}", {
+        exclude group: 'com.android.support'
+    }
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.SUPPORT_LIBRARY_VERSION}"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation "com.android.support:support-v4:${rootProject.ext.SUPPORT_LIBRARY_VERSION}"
+    implementation "com.android.support:recyclerview-v7:${rootProject.ext.SUPPORT_LIBRARY_VERSION}"
+    testImplementation 'junit:junit:4.12'
 }

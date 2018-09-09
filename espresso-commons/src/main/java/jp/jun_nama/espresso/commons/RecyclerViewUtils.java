@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 TOYAMA Sumio <jun.nama@gmail.com>
+ * Copyright (C) 2017-2018 TOYAMA Sumio <jun.nama@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Tap;
 import android.support.v7.widget.RecyclerView;
+import android.view.InputDevice;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
 
@@ -64,7 +66,9 @@ public class RecyclerViewUtils {
 
             @Override
             public void perform(UiController uiController, View view) {
-                GeneralClickAction action = new GeneralClickAction(Tap.SINGLE, GeneralLocation.VISIBLE_CENTER, Press.FINGER);
+                GeneralClickAction action = new GeneralClickAction(Tap.SINGLE,
+                        GeneralLocation.VISIBLE_CENTER, Press.FINGER, InputDevice.SOURCE_UNKNOWN,
+                        MotionEvent.BUTTON_PRIMARY);
                 View target = view.findViewById(id);
                 // getConstraints() guarantees that the target never be null.
                 action.perform(uiController, target);
@@ -100,7 +104,8 @@ public class RecyclerViewUtils {
                 if (!(parent instanceof RecyclerView) || !recyclerViewMatcher.matches(parent)) {
                     return false;
                 }
-                RecyclerView.ViewHolder viewHolder = ((RecyclerView) parent).findViewHolderForAdapterPosition(position);
+                RecyclerView.ViewHolder viewHolder = ((RecyclerView) parent).findViewHolderForAdapterPosition(
+                        position);
                 return viewHolder != null && viewHolder.itemView.equals(view);
             }
 
